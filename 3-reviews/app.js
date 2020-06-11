@@ -45,7 +45,7 @@ const job = document.getElementById('job');
 const info = document.getElementById('info');
 
 const prevBtn = document.querySelector('.prev-btn');
-const nextvBtn = document.querySelector('.next-btn');
+const nextBtn = document.querySelector('.next-btn');
 const randomBtn = document.querySelector('.random-btn');
 
 // set starting item
@@ -64,3 +64,27 @@ const showPerson = (number) => {
   job.textContent = item.job;
   info.textContent = item.text;
 };
+
+// show next person
+nextBtn.addEventListener('click', () => {
+  currentItem++;
+  if (currentItem > reviews.length - 1) {
+    currentItem = 0;
+  }
+  console.log(currentItem);
+  showPerson(currentItem);
+});
+// show previous person
+prevBtn.addEventListener('click', () => {
+  currentItem--;
+  if (currentItem < 0) {
+    currentItem = reviews.length - 1;
+  }
+  console.log(currentItem);
+  showPerson(currentItem);
+});
+// show random person
+randomBtn.addEventListener('click', () => {
+  currentItem = Math.floor(Math.random() * reviews.length);
+  showPerson(currentItem);
+});
