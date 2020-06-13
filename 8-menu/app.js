@@ -100,27 +100,13 @@ const displayMenuItems = (menuItems) => {
 const menuButtons = document.querySelector('.btn-container');
 menuButtons.addEventListener('click', (e) => {
   if (e.target.tagName === 'BUTTON') {
-    switch (e.target.dataset.id) {
-      case 'all':
-        sectionCenter.innerHTML = displayMenuItems(menu);
-        break;
-      case 'lunch':
-        sectionCenter.innerHTML = displayMenuItems(
-          menu.filter((item) => item.category === 'lunch')
-        );
-        break;
-      case 'breakfast':
-        sectionCenter.innerHTML = displayMenuItems(
-          menu.filter((item) => item.category === 'breakfast')
-        );
-        break;
-      case 'shakes':
-        sectionCenter.innerHTML = displayMenuItems(
-          menu.filter((item) => item.category === 'shakes')
-        );
-        break;
-      default:
-        return undefined;
+    let filterCategory = e.target.dataset.id;
+    if (filterCategory !== 'all') {
+      sectionCenter.innerHTML = displayMenuItems(
+        menu.filter((item) => item.category === filterCategory)
+      );
+    } else {
+      sectionCenter.innerHTML = displayMenuItems(menu);
     }
   }
 });
