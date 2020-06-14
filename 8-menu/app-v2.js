@@ -1,6 +1,5 @@
 // get only unique categories - HARDEST ONE
 // iterate over categories return buttons
-// make sure to select buttons when they are available
 
 const menu = [
   {
@@ -85,9 +84,32 @@ const menu = [
   }
 ];
 const sectionCenter = document.querySelector('.section-center');
+const menuButtons = document.querySelector('.btn-container');
 
 window.addEventListener('DOMContentLoaded', () => {
   sectionCenter.innerHTML = displayMenuItems(menu);
+  // iterate over the menu array and then return only the categories
+  const categories = menu.reduce(
+    (values, item) => {
+      if (!values.includes(item.category)) {
+        values.push(item.category);
+      }
+      return values;
+    },
+    ['all']
+  );
+  // create buttons from categories
+  // console.log(categories);
+  const categoryBtns = categories
+    .map((category) => {
+      return `
+      <button class="filter-btn" type="button" data-id="${category}">${category}
+      </button>
+    `;
+    })
+    .join('');
+  // console.log(categoryBtns); -> the menu buttons
+  menuButtons.innerHTML = categoryBtns;
 });
 
 const displayMenuItems = (menuItems) => {
@@ -109,7 +131,6 @@ const displayMenuItems = (menuItems) => {
 };
 
 // implementing filter functionality
-const menuButtons = document.querySelector('.btn-container');
 menuButtons.addEventListener('click', (e) => {
   if (e.target.tagName === 'BUTTON') {
     let filterCategory = e.target.dataset.id;
