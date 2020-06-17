@@ -40,6 +40,7 @@ const setFutureDate = () => {
     if (futureDate.getTime() - Date.now() < 72e5) {
       futureDate = new Date(Date.now() + 8.64e7 * randomPromoDays);
       localStorage.setItem('futureDate', futureDate);
+      console.log(futureDate.getTime() - Date.now());
     }
   }
   return futureDate;
@@ -71,7 +72,7 @@ giveaway.textContent = `Promotia se termina ${weekday}, ${date} ${month} ${year}
 ).toUpperCase()}`;
 
 // future time in ms
-const futureTime = futureDate.getTime();
+let futureTime = futureDate.getTime();
 // console.log('future time:', futureTime);
 
 const getRemainingTime = () => {
@@ -81,9 +82,9 @@ const getRemainingTime = () => {
   // console.log(t);
 
   // values in ms
-  const oneDay = 8.64e7;
-  const oneHour = 3.6e6;
-  const oneMinute = 6e4;
+  const oneDay = 24 * 60 * 60 * 1000;
+  const oneHour = 60 * 60 * 1000;
+  const oneMinute = 60 * 1000;
 
   // calculate all values
   let days = Math.floor(t / oneDay);
@@ -135,5 +136,11 @@ window.addEventListener(
 );
 
 setInterval(() => {
+  let time = getRemainingTime();
+  if (time.days === 0 && time.hours < 2) {
+    futureDate = setFutureDate();
+    futureTime = futureDate.getTime();
+  }
+  console.log(time.days, time.hours);
   displayRemainingTime(getRemainingTime());
 }, 1000);
